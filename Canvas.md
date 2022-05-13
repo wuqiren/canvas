@@ -27,3 +27,36 @@
 ```
 
 动画的生存就是相关静态画面连续播放，这个就是动画的过程，我们把每一次绘制静态画面叫做一帧，时间的间隔就表示的是帧的间隔
+
+### 1.4 面向对象思维实现对象
+
+```
+  const canvas = document.getElementById('canvas');
+      // 所有的图像绘制都是通过ctx属性或者方法进行设置，和canvas标签没有关系
+  const ctx = canvas.getContext('2d');
+
+  function Rect(x, y, w, h, color) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.color = color;
+  }
+  Rect.prototype.update = function () {
+    this.x++;
+  };
+  Rect.prototype.render = function () {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.w, this.y);
+  };
+  // 实例化
+  const r1 = new Rect(10, 10, 20, 20, 'red');
+  const r2 = new Rect(20, 20, 30, 30, 'blue');
+  setInterval(() => {
+    ctx.clearRect(0, 0, 600, 600);
+    r1.update();
+    r1.render();
+    r2.update();
+    r2.render();
+  }, 30);
+```
