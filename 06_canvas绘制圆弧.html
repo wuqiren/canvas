@@ -16,16 +16,9 @@
       var ctx = canvas.getContext('2d');
       // 创建一个路径
       ctx.beginPath();
-      // 移动绘制点
-      ctx.moveTo(100, 100);
-      // 描述行进路径
-      ctx.lineTo(200, 200);
-      ctx.lineTo(400, 200);
-      ctx.lineTo(400, 400);
-      ctx.lineTo(200, 400);
-
+      ctx.arc(200, 200, 100, 1, 7, true);
+      //   第三个和第四个参数差为7 的时候 表示绘制了一个圆  顺时针的时候
       // 封闭路径
-      ctx.closePath(); // 下面使用ctx.fill() 可以不使用 如果是ctx.stroke() 必须使用
       // 绘制这个不规则的图形
       ctx.strokeStyle = 'red';
       ctx.stroke();
