@@ -12,7 +12,7 @@
       const canvas = document.getElementById('canvas');
       // 所有的图像绘制都是通过ctx属性或者方法进行设置，和canvas标签没有关系
       const ctx = canvas.getContext('2d');
-      canvas.width = document.documentElement.clientWidth - 30;
+      canvas.width = document.documentElement.clientWidth - 10;
       canvas.height = document.documentElement.clientHeight;
       const billArr = [];
       function Ball() {
@@ -22,8 +22,9 @@
         this.dx = parseInt(Math.random() * 10 - 10);
         this.dy = parseInt(Math.random() * 10 - 10);
         this.color = 'red';
-        this.r = 30;
+        this.r = 10;
         billArr.push(this);
+        this.index = billArr.length - 1;
       }
       Ball.prototype.update = function () {
         this.x += this.dx;
@@ -41,6 +42,19 @@
         ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
         ctx.fillStyle = this.color;
         ctx.fill();
+        // 划线逻辑
+        for (let i = this.index; i < billArr.length; i++) {
+          if (
+            Math.abs(billArr[i].x - this.x) < 150 &&
+            Math.abs(billArr[i].y - this.y) < 150
+          ) {
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(billArr[i].x, billArr[i].y);
+            ctx.closePath();
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+          }
+        }
       };
       for (let i = 0; i < 20; i++) {
         new Ball();
