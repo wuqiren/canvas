@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="canvas"> 当前浏览器版本不支持，请升级浏览器 </canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      // 所有的图像绘制都是通过ctx属性或者方法进行设置，和canvas标签没有关系
+      const ctx = canvas.getContext('2d');
+      canvas.width = document.documentElement.clientWidth - 30;
+      canvas.height = document.documentElement.clientHeight;
+      const billArr = [];
+      function Ball() {
+        this.x = parseInt(Math.random() * canvas.width);
+        this.y = parseInt(Math.random() * canvas.height);
+        // 设置行进方向
+        this.dx = parseInt(Math.random() * 10 - 10);
+        this.dy = parseInt(Math.random() * 10 - 10);
+        this.color = 'red';
+        this.r = 30;
+        billArr.push(this);
+      }
+      Ball.prototype.update = function () {
+        this.x += this.dx;
+        this.y += this.dy;
+        if (this.x < this.r || this.x > canvas.width - this.r) {
+          this.dx = -this.dx;
+        }
+        if (this.y < this.r || this.y > canvas.height - this.r) {
+          this.dy = -this.dy;
+        }
+      };
+      Ball.prototype.render = function () {
+        ctx.beginPath();
+        ctx.globaAlpha = 1;
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      };
+      for (let i = 0; i < 20; i++) {
+        new Ball();
+      }
+      setInterval(function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < billArr.length; i++) {
+          billArr[i].update();
+          billArr[i].render();
+        }
+      }, 10);
+    </script>
+  </body>
+</html>
