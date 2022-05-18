@@ -1,16 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./node_modules/heatmap.js/build/heatmap.js"></script>
-    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>HeadMap.js</title>
+    <!-- 动图效果样式 -->
+    <link
+      rel="stylesheet"
+      href="https://www.patrick-wied.at/static/heatmapjs/assets/css/commons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.patrick-wied.at/static/heatmapjs/assets/css/example-commons.css"
+    />
+    <!--Framework-->
+    <script src="./index.js" type="text/javascript"></script>
+    <style>
+      .legend-area {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 10px;
+        background: white;
+        outline: 3px solid black;
+        line-height: 1em;
+      }
+      h4 {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 5px;
+      }
+      #min {
+        float: left;
+      }
+      #max {
+        float: right;
+      }
+      span {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+      }
+      .tooltip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-size: 14px;
+        padding: 5px;
+        line-height: 18px;
+        display: none;
+      }
+      .demo-wrapper {
+        position: relative;
+      }
+    </style>
   </head>
   <body>
-    <script>
-      /*  start legend code */
-      // we want to display the gradient, so we have to draw it
+    <h1>HeadMap</h1>
+    <div class="wrapper">
+      <div class="demo-wrapper">
+        <div class="heatmap" style="position: relative">
+          <canvas
+            class="heatmap-canvas"
+            width="834"
+            height="400"
+            style="position: absolute; left: 0px; top: 0px"
+          ></canvas>
+        </div>
+        <div
+          class="tooltip"
+          style="display: none; transform: translate(538px, 377px)"
+        >
+          633
+        </div>
+        <div class="legend-area">
+          <h4>Legend Title</h4>
+          <span id="min">0</span>
+          <span id="max">1224</span>
+          <img
+            id="gradient"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAKCAYAAABCHPt+AAAAx0lEQVRYR+2WwQqDMBBEn2SF6P9/Z9tTFRSULVkIpdC0kBUxgTDZax4zsx1sG7WPrDDMECdXFVkYgAiuKjNwB27AI70L584HyOIKwsCLrK4gDLxMGQQFomAUiN4vcwNSwUF/AUmgGpDaQMwZheoDpF8gpg4ZkzrMGllj+nCNE70ec8gjqxCERZoPELlYhzyzrrDOKFQfIOqQA7asPhxT6uEUQBwi6rVdZZH4KbI81mBRIIVb1fvW1RxSodTP4ZCrRdaPZW6O2gEogeBRRgNVBwAAAABJRU5ErkJggg=="
+            style="width: 100%"
+          />
+        </div>
+      </div>
+      <div class="demo-controls">
+        <button class="trigger-refresh btn">re-generate data</button>
+        <br style="clear: both" />
+      </div>
+    </div>
+    <script type="text/javascript">
       var legendCanvas = document.createElement('canvas');
       legendCanvas.width = 100;
       legendCanvas.height = 10;
@@ -39,10 +119,6 @@
       /* legend code end */
       var heatmapInstance = h337.create({
         container: document.querySelector('.heatmap'),
-        // onExtremaChange will be called whenever there's a new maximum or minimum
-        onExtremaChange: function (data) {
-          updateLegend(data);
-        },
       });
       /* tooltip code start */
       var demoWrapper = document.querySelector('.demo-wrapper');
